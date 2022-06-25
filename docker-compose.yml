@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  app:
+    container_name: geoip-elixir-app
+    build:
+      context: ./
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/app:cached
+    ports:
+      - 4000:4000
+  db:
+    container_name: geoip-elixir-db
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: geoip_elixir_dev
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ~/.geoip-elixir-db/postgresql/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
