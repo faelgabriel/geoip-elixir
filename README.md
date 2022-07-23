@@ -1,7 +1,19 @@
 # GeoipElixir.Umbrella
 
-**IP Geolocation built with Elixir and GraphQL.**
+**IP Geolocation API built with Elixir and GraphQL.**
 
+## Production
+
+Currently, this API is running on production under [Gigalixir](https://www.gigalixir.com/) hosting:
+
+- Application: https://geoip.gigalixirapp.com/
+- GraphQL: https://geoip.gigalixirapp.com/graphql
+
+### Deploy to Production
+
+The deployment to production is triggered automatically when a push to the `main` branch occurs.
+
+It uses [Github Actions](https://github.com/faelgabriel/geoip-elixir/actions/workflows/deploy.yml) to trigger the build and deploy it.
 
 ## Docker
 
@@ -63,6 +75,18 @@ GraphQL endpoint and GUI for querying (GraphiQL):
 
 ```sh
 http://127.0.0.1:4000/graphql
+```
+
+To run production environment locally, on the file `config/prod.exs` set to `false` the config `ssl: true`, and inside the container run the following commands:
+
+```sh
+export SECRET_KEY_BASE=$(mix phx.gen.secret)
+export DATABASE_URL=ecto://postgres:postgres@geoip-elixir-db/geoip_elixir_dev
+export APP_HOST=localhost
+export PORT=4000
+mix deps.get --only prod
+MIX_ENV=prod mix compile
+MIX_ENV=prod mix phx.server
 ```
 
 ## License

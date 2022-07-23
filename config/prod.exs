@@ -1,5 +1,11 @@
 import Config
 
+config :geoip_elixir, GeoipElixir.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: System.get_env("DATABASE_URL"),
+  ssl: true,
+  pool_size: 1
+
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
 # when generating URLs.
@@ -10,8 +16,11 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :geoip_elixir_web, GeoipElixirWeb.Endpoint,
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  http: [port: {:system, "PORT"}],
+  url: [host: System.get_env("APP_HOST"), port: System.get_env("PORT") || 443],
+  secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE"),
+  server: true
+# cache_static_manifest: "priv/static/cache_manifest.json"
 
 # ## SSL Support
 #
