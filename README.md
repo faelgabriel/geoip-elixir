@@ -34,6 +34,16 @@ mix deps.get
 mix ecto.create
 ```
 
+Inside the container, populate database:
+
+```sh
+# navigate to the app where the seeds are
+cd apps/geoip_elixir/
+
+# run seeds
+mix run priv/repo/seeds.exs
+```
+
 Inside the container, start the Elixir Phoenix app server:
 
 ```sh
@@ -47,6 +57,12 @@ Verify if it's running by navigating to your server address in your preferred br
 
 ```sh
 127.0.0.1:4000
+```
+
+GraphQL endpoint and GUI for querying (GraphiQL):
+
+```sh
+http://127.0.0.1:4000/graphql
 ```
 
 ## License

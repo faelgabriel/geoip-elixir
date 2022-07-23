@@ -1,12 +1,17 @@
 defmodule GeoipElixirWeb.Router do
   use GeoipElixirWeb, :router
 
-  pipeline :api do
+  pipeline :graphql do
     plug :accepts, ["json"]
   end
 
-  scope "/api", GeoipElixirWeb do
-    pipe_through :api
+  scope "/graphql" do
+    pipe_through :graphql
+
+    forward "/", Absinthe.Plug.GraphiQL,
+      schema: GeoipElixirWeb.Schema,
+      interface: :simple,
+      context: %{pubsub: GeoipElixirWeb.Endpoint}
   end
 
   # Enables LiveDashboard only for development
